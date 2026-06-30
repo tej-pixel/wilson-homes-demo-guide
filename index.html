@@ -177,7 +177,7 @@
   <div class="wrap">
     <p class="kicker">The 30-second context</p>
     <h2 class="title">Why we built this</h2>
-    <p class="lead">Wilson Homes runs the buyer journey across fragmented tools — Lasso CRM for leads, Mailchimp for campaigns, and manual hand-offs between marketing and on-site sales staff. The team has seen what Sales Cloud <em>can</em> do; this POC shows what it looks like <em>for a home builder specifically</em>.</p>
+    <p class="lead">Wilson Homes runs the buyer journey across fragmented tools — Lasso CRM for leads, Mailchimp for campaigns, and manual hand-offs between marketing and on-site sales staff. What you'll see today isn't a bespoke experiment — it's the <strong>proven model we've deployed with other home builders</strong>, built <strong>native Salesforce first</strong> and tailored to Wilson Homes <em>after</em> the foundation is set.</p>
     <div class="grid g3" style="margin-top:22px">
       <div class="card">
         <div class="ico">🏘️</div>
@@ -195,6 +195,50 @@
         <p>A live dashboard replaces spreadsheet stitching — pipeline, deal age, win rates, and community funnel in one place.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- WHAT WE HEARD -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Open here · Validate first</p>
+    <h2 class="title">What we heard</h2>
+    <p class="lead">Before a single screen, play back their world. It earns trust, confirms you understood them, and frames everything that follows as a <em>proven pattern</em> — not something invented for this one call. Lead with: <em>"We've done this for other home builders. Here's what we heard about you, here's where you're a little different, and here's how we make you like everybody else."</em></p>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card">
+        <h3>✅ What you told us matters</h3>
+        <ul class="points" style="margin-top:6px">
+          <li>A fragmented stack — <b>Lasso, Mailchimp, social retargeting</b> — that doesn't talk to itself.</li>
+          <li>Online leads <b>routed to the right community &amp; on-site rep</b>, fast.</li>
+          <li><b>One central hub</b> for the buyer journey, first click to closed sale.</li>
+          <li><b>Visual, at-a-glance</b> reporting your team can read in seconds.</li>
+          <li>Keep it <b>simple and user-friendly</b> — no platform-hopping, no silos.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧩 Where you're a little different</h3>
+        <ul class="points" style="margin-top:6px">
+          <li>Your <b>website is the demand engine</b> — not bought lead lists.</li>
+          <li>You sell across <b>multiple communities</b> at once.</li>
+          <li>Marketing is run by a <b>third-party agency</b> (Daniela &amp; Scott).</li>
+          <li>You're on <b>Teams today</b> (Slack is an easy phase-two add).</li>
+        </ul>
+        <p style="margin:12px 0 0;font-size:.9rem;color:var(--slate)">→ Acknowledge the differences, then reinforce: the <b>foundation is the same proven model</b> — we simply mold it to fit.</p>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card" style="border-left:4px solid var(--brick)">
+        <h3>📖 Frame it as a storybook</h3>
+        <p>Skip the technical configuration; tell an end-to-end customer story. What you're showing today is <b>Chapter 1 — the foundation</b>. Chapters 5–10 are where we build on it with AI lead qualification and deeper automation. "Here's the A-to-Z of how this works for you."</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--sky)">
+        <h3>🏗️ Industry best practice, native first</h3>
+        <p>Position it as the standard we've proven across home builders — <b>native Salesforce first</b>, then tailored to Wilson Homes once the foundation is agreed. They want best practices and to get going fast, <em>not</em> an over-engineered custom build.</p>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:18px">🎤 <b>Presenter prep:</b> have <b>2–3 home-builder client names &amp; websites queued to paste into chat</b> as live proof points (name-drop where NDAs allow). When you introduce a feature like <b>lead ratings</b>, anchor it: <em>"This is something our other home builders rely on — so we incorporated it into yours too."</em></p>
   </div>
 </section>
 
@@ -218,7 +262,7 @@
           <li>Log in and confirm the <b>Sales</b> app is selected (top-left).</li>
           <li>Open the <b>Dashboards</b> tab → <b>WH Sales Cloud Overview</b> and hit <b>Refresh</b> so tiles show live data.</li>
           <li>Keep the <b>Opportunities</b> and <b>Leads</b> tabs handy — that's most of the demo.</li>
-          <li>Present in buyer-journey order (the steps below): inquiry → community → deal → close → rollup.</li>
+          <li>Optionally open on the <b>dashboard</b> — the "big moment" / end result — then walk the story below: website inquiry → community → deal → close → back to the rollup.</li>
         </ol>
       </div>
     </div>
@@ -232,7 +276,7 @@
     <h2 class="title">Demo agenda</h2>
     <p class="lead">Five stops, roughly 12–15 minutes. Each follows the buyer's journey through the Wilson Homes pipeline.</p>
     <div class="agenda" style="margin-top:20px">
-      <a href="#s1"><span class="t">A web inquiry becomes a Lead</span><span class="d">Lead intake by community</span></a>
+      <a href="#s1"><span class="t">The lead story — it starts on your website</span><span class="d">Form → Lead → routed → notified</span></a>
       <a href="#s2"><span class="t">The community and its deals</span><span class="d">Account = community</span></a>
       <a href="#s3"><span class="t">A live deal on the Sales Path</span><span class="d">Guided selling</span></a>
       <a href="#s4"><span class="t">Inside the deal</span><span class="d">Opportunity details</span></a>
@@ -266,25 +310,27 @@
     <div class="step" id="s1">
       <div class="step-h">
         <div class="step-num">1</div>
-        <div><h3>A web inquiry becomes a Lead</h3><div class="sh-sub">Leads tab → open a Lead record</div></div>
+        <div><h3>The lead story — it starts on your website</h3><div class="sh-sub">wilson-homes.com registration form → Lead → routed → notified → converted</div></div>
       </div>
       <div class="step-body">
         <img class="shot" src="screenshots/lead-record.png" alt="Lead record for Jordan Hayes, Custom Build - Fresno">
         <div class="step-cols">
           <div class="col">
             <h4>Click path</h4>
-            <div class="clickpath">Leads tab → open <b>Jordan Hayes</b><br>→ note the <b>Company</b> field<br>→ point to the <b>Lead Status</b> path</div>
-            <h4 style="margin-top:16px">Say this</h4>
-            <p class="say">"Every online inquiry lands here as a Lead. We tag it with the buyer type and community right up front — 'Custom Build – Fresno' — so it can be routed to the right on-site team instantly instead of sitting in an inbox."</p>
+            <div class="clickpath">Start on <b>wilson-homes.com</b> → "Find Your Home" / <b>Register</b> form<br>→ submit<br>→ Leads tab → open <b>Jordan Hayes</b><br>→ point to <b>Company</b>, then the <b>Lead Status</b> path</div>
+            <h4 style="margin-top:16px">Say this (tell the whole story)</h4>
+            <p class="say">"Let's follow one buyer end to end. They land on <em>your</em> website and fill out the 'Find Your Home' form. The instant they submit, two things happen: they get an automatic email saying someone from your team will reach out shortly — so no one goes cold — and the inquiry drops into Salesforce as a Lead, already tagged with their buyer type and community: 'Custom Build – Fresno'. It routes to the right on-site rep automatically and notifies them — no inbox, no manual sorting. When the rep qualifies it, one click turns it into a Contact and an Opportunity."</p>
           </div>
           <div class="col">
             <h4>Point out</h4>
             <ul class="points">
-              <li><b>Company = buyer type + community</b> — how the team segments inquiries (First-Time, Move-Up, Spec, Custom).</li>
-              <li><b>Lead Status path</b> — Contacted → Open → Qualified, the same guided experience as deals.</li>
-              <li><b>Rating</b> (Hot / Warm / Cold) — quick prioritization for follow-up.</li>
-              <li><b>Convert</b> button — qualified inquiries become a Contact + Opportunity in one click.</li>
+              <li><b>Starts on your website</b> — your site is the demand engine; the form is the front door (wireframe it verbally — "everyone starts here").</li>
+              <li><b>Instant confirmation email</b> — the moment they submit, the prospect hears "someone will be in touch shortly."</li>
+              <li><b>Company = buyer type + community</b> — "Custom Build – Fresno" — the trigger that <b>auto-routes to the right on-site team</b> and notifies the rep.</li>
+              <li><b>Rating (Hot / Warm / Cold)</b> — "a field our other home builders rely on" to prioritize follow-up.</li>
+              <li><b>One-click Convert</b> — qualified inquiry becomes a Contact <em>and</em> an Opportunity together.</li>
             </ul>
+            <p class="note" style="margin-top:14px">🔮 <b>Future chapter (not Phase 1):</b> today the lead routes straight to a salesperson. In a later chapter, an <b>AI agent qualifies the high volume of website leads first</b> — scoring and filtering them (Hot/Warm/Cold becomes the trigger) — then hands the qualified ones to a rep. Frame it as building on this foundation, not something we're doing today.</p>
           </div>
         </div>
       </div>
