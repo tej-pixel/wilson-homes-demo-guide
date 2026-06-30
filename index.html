@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wilson Homes — Sales Cloud Demo Guide</title>
+<style>
+  :root{
+    --navy:#13233f; --navy2:#1d3559; --slate:#5b6b85; --ink:#1a2435;
+    --paper:#f6f8fb; --card:#ffffff; --line:#e3e9f2;
+    --brick:#c8632f; --brick-soft:#f7ede6; --sky:#2f6fb0; --sky-soft:#eaf2fa;
+    --good:#2e7d54; --good-soft:#e8f3ec; --amber:#b9821a; --amber-soft:#fbf3e0;
+    --radius:14px; --shadow:0 1px 2px rgba(20,35,63,.06),0 8px 28px rgba(20,35,63,.07);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--sky);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{line-height:1.22;letter-spacing:-.01em}
+  code{background:#eef2f8;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.86em;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#27406b}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#13233f 0%,#1d3559 58%,#274b73 100%);color:#fff;padding:64px 0 56px;position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,rgba(200,99,47,.34),transparent 60%)}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.74rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#bcd2ec;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+    padding:6px 13px;border-radius:999px}
+  .hero h1{font-size:2.7rem;margin:20px 0 10px;font-weight:800}
+  .hero p.sub{font-size:1.17rem;color:#d7e2f1;max-width:680px;margin:0}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:10px;
+    padding:9px 13px;font-size:.85rem;color:#eaf1f9}
+  .chip b{color:#fff}
+
+  section{padding:46px 0}
+  section.alt{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .kicker{font-size:.76rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--brick);margin:0 0 8px}
+  h2.title{font-size:1.78rem;margin:0 0 8px;color:var(--navy)}
+  .lead{font-size:1.06rem;color:var(--slate);max-width:760px;margin:0 0 8px}
+
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 6px;font-size:1.06rem;color:var(--navy)}
+  .card p{margin:0;color:var(--slate);font-size:.95rem}
+  .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:1.1rem;margin-bottom:12px;
+    background:var(--sky-soft);color:var(--sky)}
+
+  /* preflight / login box */
+  .login{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  @media(max-width:820px){.login{grid-template-columns:1fr}}
+  .login .l,.login .r{padding:22px}
+  .login .l{background:var(--navy);color:#fff}
+  .login .l h3{color:#fff;margin:0 0 14px;font-size:1.04rem}
+  .kv{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.16);font-size:.92rem}
+  .kv:last-child{border-bottom:none}
+  .kv span{color:#bcd2ec}
+  .kv b{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#fff;text-align:right;word-break:break-all}
+  .login .r h3{margin:0 0 10px;color:var(--navy);font-size:1.04rem}
+  .login .r ol{margin:0;padding-left:18px;color:var(--slate);font-size:.94rem}
+  .login .r ol li{margin-bottom:7px}
+
+  /* TOC / agenda */
+  .agenda{counter-reset:step;display:grid;gap:12px}
+  .agenda a{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:14px 18px;color:var(--ink);transition:.15s;box-shadow:var(--shadow)}
+  .agenda a:hover{transform:translateX(3px);border-color:var(--sky);text-decoration:none}
+  .agenda a:before{counter-increment:step;content:counter(step);flex:0 0 34px;height:34px;border-radius:9px;
+    background:var(--brick);color:#fff;font-weight:800;display:grid;place-items:center;font-size:.96rem}
+  .agenda .t{font-weight:700;color:var(--navy)}
+  .agenda .d{color:var(--slate);font-size:.9rem;margin-left:auto;text-align:right}
+  @media(max-width:620px){.agenda .d{display:none}}
+
+  /* data-model row */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+  .node .o{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brick)}
+  .node .n{font-weight:800;color:var(--navy);font-size:1.05rem;margin:4px 0 2px}
+  .node .m{font-size:.85rem;color:var(--slate)}
+  .arrow{display:grid;place-items:center;padding:0 8px;color:var(--slate);font-size:1.4rem;font-weight:700}
+  @media(max-width:820px){.arrow{transform:rotate(90deg);padding:6px 0}}
+
+  /* steps */
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    overflow:hidden;margin-bottom:26px}
+  .step-h{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfcfe,#fff)}
+  .step-num{flex:0 0 40px;height:40px;border-radius:11px;background:var(--navy);color:#fff;font-weight:800;
+    display:grid;place-items:center;font-size:1.05rem}
+  .step-h h3{margin:0;font-size:1.2rem;color:var(--navy)}
+  .step-h .sh-sub{font-size:.86rem;color:var(--slate)}
+  .step-body{padding:0}
+  .shot{display:block;width:100%;border-bottom:1px solid var(--line);background:#eef2f7}
+  .step-cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  @media(max-width:820px){.step-cols{grid-template-columns:1fr}}
+  .col{padding:20px 22px}
+  .col+.col{border-left:1px solid var(--line)}
+  @media(max-width:820px){.col+.col{border-left:none;border-top:1px solid var(--line)}}
+  .col h4{margin:0 0 10px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brick)}
+  .clickpath{font-family:ui-monospace,Menlo,monospace;font-size:.84rem;color:#27406b;background:var(--sky-soft);
+    border:1px solid #d4e4f3;border-radius:8px;padding:10px 12px;line-height:1.7}
+  .say{border-left:3px solid var(--brick);background:var(--brick-soft);padding:12px 14px;border-radius:0 8px 8px 0;
+    font-size:.96rem;color:#5c3a24;font-style:italic}
+  ul.points{margin:10px 0 0;padding-left:18px}
+  ul.points li{margin-bottom:6px;color:var(--ink);font-size:.94rem}
+  ul.points li b{color:var(--navy)}
+
+  /* sales path stages */
+  .stages{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  @media(max-width:820px){.stages{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.stages{grid-template-columns:1fr}}
+  .stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px;box-shadow:var(--shadow);position:relative}
+  .stage .sn{font-size:.72rem;font-weight:700;color:#fff;background:var(--sky);border-radius:6px;padding:2px 8px;display:inline-block}
+  .stage:nth-child(1) .sn{background:#5b7aa8}
+  .stage:nth-child(2) .sn{background:#3f6fa6}
+  .stage:nth-child(3) .sn{background:var(--brick)}
+  .stage:nth-child(4) .sn{background:#a8581f}
+  .stage:nth-child(5) .sn{background:var(--good)}
+  .stage h4{margin:9px 0 5px;font-size:.98rem;color:var(--navy)}
+  .stage p{margin:0;font-size:.85rem;color:var(--slate)}
+
+  /* reference table */
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.92rem}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+  th{background:#f0f4f9;color:var(--navy);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--navy)}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:820px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow)}
+  .stat .v{font-size:1.7rem;font-weight:800;color:var(--brick)}
+  .stat .k{font-size:.82rem;color:var(--slate);margin-top:2px}
+
+  /* objections */
+  .obj{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+  .obj .q{font-weight:700;color:var(--navy);margin:0 0 6px}
+  .obj .q:before{content:"“";color:var(--brick);font-size:1.3rem;font-weight:800;margin-right:2px}
+  .obj .a{color:var(--slate);font-size:.94rem;margin:0}
+  .obj .a b{color:var(--ink)}
+
+  .note{background:var(--amber-soft);border:1px solid #ecd9a8;border-radius:10px;padding:13px 16px;font-size:.9rem;color:#6b4e12}
+
+  footer{background:var(--navy);color:#aebfd6;padding:36px 0;font-size:.9rem}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+  footer b{color:#fff}
+  .toplink{color:#bcd2ec}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">● SaaScend × Wilson Homes · Sales Cloud POC</span>
+    <h1>Wilson Homes — Sales Cloud Demo Guide</h1>
+    <p class="sub">A day-in-the-life walkthrough of the Wilson Homes Salesforce trial — built for home builders. One central hub for the buyer journey, from first web inquiry through home tour to closed sale.</p>
+    <div class="meta">
+      <span class="chip"><b>Audience:</b> Wilson Homes sales &amp; marketing team</span>
+      <span class="chip"><b>Presented by:</b> Tom Christoff (SaaScend)</span>
+      <span class="chip"><b>Cloud:</b> Sales Cloud</span>
+      <span class="chip"><b>Org:</b> force-force-3241 (trial)</span>
+    </div>
+  </div>
+</header>
+
+<!-- CONTEXT -->
+<section>
+  <div class="wrap">
+    <p class="kicker">The 30-second context</p>
+    <h2 class="title">Why we built this</h2>
+    <p class="lead">Wilson Homes runs the buyer journey across fragmented tools — Lasso CRM for leads, Mailchimp for campaigns, and manual hand-offs between marketing and on-site sales staff. The team has seen what Sales Cloud <em>can</em> do; this POC shows what it looks like <em>for a home builder specifically</em>.</p>
+    <div class="grid g3" style="margin-top:22px">
+      <div class="card">
+        <div class="ico">🏘️</div>
+        <h3>Built around communities</h3>
+        <p>Each community is an Account; every home or lot deal is an Opportunity tied to it. Pipeline rolls up by community automatically.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🧭</div>
+        <h3>One visual sales process</h3>
+        <p>A guided Sales Path walks every deal from Registered Interest to Closed Won — so reps always know the next step.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📊</div>
+        <h3>Insight without the busywork</h3>
+        <p>A live dashboard replaces spreadsheet stitching — pipeline, deal age, win rates, and community funnel in one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRE-FLIGHT -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Pre-flight</p>
+    <h2 class="title">Log in before you present</h2>
+    <p class="lead">Open the trial org in a clean browser window a few minutes before the call. The data below is already seeded — you don't need to create anything live.</p>
+    <div class="login" style="margin-top:18px">
+      <div class="l">
+        <h3>🔑 Trial login</h3>
+        <div class="kv"><span>Login URL</span><b>force-force-3241<br>.scratch.lightning.force.com</b></div>
+        <div class="kv"><span>Username</span><b>1782788421444_test-se6l7yuqo9kf@example.com</b></div>
+        <div class="kv"><span>Password</span><b>WilsonHomes2026!</b></div>
+        <div class="kv"><span>App</span><b>Sales</b></div>
+      </div>
+      <div class="r">
+        <h3>Quick start</h3>
+        <ol>
+          <li>Log in and confirm the <b>Sales</b> app is selected (top-left).</li>
+          <li>Open the <b>Dashboards</b> tab → <b>WH Sales Cloud Overview</b> and hit <b>Refresh</b> so tiles show live data.</li>
+          <li>Keep the <b>Opportunities</b> and <b>Leads</b> tabs handy — that's most of the demo.</li>
+          <li>Present in buyer-journey order (the steps below): inquiry → community → deal → close → rollup.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section>
+  <div class="wrap">
+    <p class="kicker">The walkthrough</p>
+    <h2 class="title">Demo agenda</h2>
+    <p class="lead">Five stops, roughly 12–15 minutes. Each follows the buyer's journey through the Wilson Homes pipeline.</p>
+    <div class="agenda" style="margin-top:20px">
+      <a href="#s1"><span class="t">A web inquiry becomes a Lead</span><span class="d">Lead intake by community</span></a>
+      <a href="#s2"><span class="t">The community and its deals</span><span class="d">Account = community</span></a>
+      <a href="#s3"><span class="t">A live deal on the Sales Path</span><span class="d">Guided selling</span></a>
+      <a href="#s4"><span class="t">Inside the deal</span><span class="d">Opportunity details</span></a>
+      <a href="#s5"><span class="t">The pipeline at a glance</span><span class="d">Live dashboard</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ORIENTATION -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Orientation</p>
+    <h2 class="title">How the home-builder data model maps to Salesforce</h2>
+    <p class="lead">Before the click-through, ground the team in four objects. This is the mental model everything else hangs on.</p>
+    <div class="flow" style="margin-top:22px">
+      <div class="node"><div class="o">Lead</div><div class="n">Web inquiry</div><div class="m">A prospect who registered interest online — tagged by buyer type &amp; community.</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="o">Account</div><div class="n">Community</div><div class="m">A Wilson Homes neighborhood (Copper Creek, Loma Vista…).</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="o">Contact</div><div class="n">Buyer</div><div class="m">The household buying or touring a home in that community.</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="o">Opportunity</div><div class="n">Home deal</div><div class="m">A specific home or lot sale, moving along the Sales Path.</div></div>
+    </div>
+    <p class="note" style="margin-top:20px">💡 <b>Talking point:</b> "In Lasso, these live in different places and the hand-off is manual. In Salesforce it's one connected record — the inquiry, the community, the buyer, and the deal all link together, and reporting falls out of it for free."</p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section>
+  <div class="wrap">
+    <div class="step" id="s1">
+      <div class="step-h">
+        <div class="step-num">1</div>
+        <div><h3>A web inquiry becomes a Lead</h3><div class="sh-sub">Leads tab → open a Lead record</div></div>
+      </div>
+      <div class="step-body">
+        <img class="shot" src="screenshots/lead-record.png" alt="Lead record for Jordan Hayes, Custom Build - Fresno">
+        <div class="step-cols">
+          <div class="col">
+            <h4>Click path</h4>
+            <div class="clickpath">Leads tab → open <b>Jordan Hayes</b><br>→ note the <b>Company</b> field<br>→ point to the <b>Lead Status</b> path</div>
+            <h4 style="margin-top:16px">Say this</h4>
+            <p class="say">"Every online inquiry lands here as a Lead. We tag it with the buyer type and community right up front — 'Custom Build – Fresno' — so it can be routed to the right on-site team instantly instead of sitting in an inbox."</p>
+          </div>
+          <div class="col">
+            <h4>Point out</h4>
+            <ul class="points">
+              <li><b>Company = buyer type + community</b> — how the team segments inquiries (First-Time, Move-Up, Spec, Custom).</li>
+              <li><b>Lead Status path</b> — Contacted → Open → Qualified, the same guided experience as deals.</li>
+              <li><b>Rating</b> (Hot / Warm / Cold) — quick prioritization for follow-up.</li>
+              <li><b>Convert</b> button — qualified inquiries become a Contact + Opportunity in one click.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="alt">
+  <div class="wrap">
+    <div class="step" id="s2">
+      <div class="step-h">
+        <div class="step-num">2</div>
+        <div><h3>The community and its deals</h3><div class="sh-sub">Accounts tab → a community → Related</div></div>
+      </div>
+      <div class="step-body">
+        <img class="shot" src="screenshots/account-community.png" alt="Copper Creek community account with related contacts and opportunities">
+        <div class="step-cols">
+          <div class="col">
+            <h4>Click path</h4>
+            <div class="clickpath">Accounts tab → <b>Copper Creek (Fresno)</b><br>→ <b>Related</b> tab<br>→ scan Contacts &amp; Opportunities</div>
+            <h4 style="margin-top:16px">Say this</h4>
+            <p class="say">"Here's a single community. In one screen you see every buyer and every active home deal in Copper Creek — nobody has to pull a separate Lasso report to know what's happening in a neighborhood."</p>
+          </div>
+          <div class="col">
+            <h4>Point out</h4>
+            <ul class="points">
+              <li><b>Related Opportunities</b> — all the home deals in this community, each with its stage and amount.</li>
+              <li><b>Related Contacts</b> — the buyers and homeowners tied to the community.</li>
+              <li><b>Activity timeline</b> (right) — calls, tours, and tasks logged against the community.</li>
+              <li><b>Roll-up</b> — because deals link to the community, the dashboard's "Community Funnel" builds itself.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section>
+  <div class="wrap">
+    <div class="step" id="s3">
+      <div class="step-h">
+        <div class="step-num">3</div>
+        <div><h3>A live deal on the Sales Path</h3><div class="sh-sub">Opportunities → open a deal → Activity</div></div>
+      </div>
+      <div class="step-body">
+        <img class="shot" src="screenshots/opp-salespath.png" alt="Opportunity Olson Residence on the Sales Path at Tour Scheduled">
+        <div class="step-cols">
+          <div class="col">
+            <h4>Click path</h4>
+            <div class="clickpath">Opportunities → <b>Olson Residence – Loma Vista Lot 12</b><br>→ follow the <b>Sales Path</b> across the top</div>
+            <h4 style="margin-top:16px">Say this</h4>
+            <p class="say">"This is the heart of it. Every home deal moves along the same visual path — Registered Interest, Qualified, Tour Scheduled, Negotiating, Closed Won. A new rep always knows exactly what stage a deal is in and what to do next."</p>
+          </div>
+          <div class="col">
+            <h4>Point out</h4>
+            <ul class="points">
+              <li><b>The Sales Path</b> — the guided process; click "Mark Stage as Complete" to advance a deal.</li>
+              <li><b>Stage highlighted</b> — this deal is at <b>Tour Scheduled</b>; the path shows where it's been and where it's going.</li>
+              <li><b>Activity timeline</b> — the logged tour and follow-up tasks live right on the record.</li>
+              <li><b>Owner</b> — the on-site rep who owns the deal (Allie), driving the "Win Rate by Rep" report.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<section class="alt">
+  <div class="wrap">
+    <div class="step" id="s4">
+      <div class="step-h">
+        <div class="step-num">4</div>
+        <div><h3>Inside the deal</h3><div class="sh-sub">Same Opportunity → Details tab</div></div>
+      </div>
+      <div class="step-body">
+        <img class="shot" src="screenshots/opp-details.png" alt="Opportunity details tab showing standard fields">
+        <div class="step-cols">
+          <div class="col">
+            <h4>Click path</h4>
+            <div class="clickpath">On the Opportunity → <b>Details</b> tab</div>
+            <h4 style="margin-top:16px">Say this</h4>
+            <p class="say">"Everything that matters about the deal in one view — the community, the buyer, the amount, the close date, the next step. No more cross-checking Lasso against a spreadsheet to remember where a deal stands."</p>
+          </div>
+          <div class="col">
+            <h4>Point out</h4>
+            <ul class="points">
+              <li><b>Amount &amp; Close Date</b> — the numbers that feed forecasting and deal-age tracking.</li>
+              <li><b>Account Name</b> — links straight back to the community.</li>
+              <li><b>Next Step</b> — a free-text reminder of the immediate action.</li>
+              <li><b>Inline edit</b> — click any pencil to update without leaving the page.</li>
+            </ul>
+            <p class="note" style="margin-top:14px">This POC uses standard Sales Cloud fields. Builder-specific fields (floorplan, lot, pre-approval status, etc.) are a fast follow-on once the team confirms the model.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section>
+  <div class="wrap">
+    <div class="step" id="s5">
+      <div class="step-h">
+        <div class="step-num">5</div>
+        <div><h3>The pipeline at a glance</h3><div class="sh-sub">Dashboards → WH Sales Cloud Overview</div></div>
+      </div>
+      <div class="step-body">
+        <img class="shot" src="screenshots/dashboard.png" alt="WH Sales Cloud Overview dashboard with eight tiles">
+        <div class="step-cols">
+          <div class="col">
+            <h4>Click path</h4>
+            <div class="clickpath">Dashboards tab → <b>WH Sales Cloud Overview</b> → <b>Refresh</b></div>
+            <h4 style="margin-top:16px">Say this</h4>
+            <p class="say">"This is the payoff. Everything we just walked through rolls up here in real time — total pipeline, deals by stage, the community funnel, top reps, and aging deals. This is the view your sales leader opens every morning, and it's never out of date."</p>
+          </div>
+          <div class="col">
+            <h4>Point out</h4>
+            <ul class="points">
+              <li><b>Total Pipeline $</b> — the headline number, live.</li>
+              <li><b>Pipeline by Stage</b> &amp; <b>Community Funnel</b> — where deals sit, by stage and by community.</li>
+              <li><b>Top Reps by Closed Won</b> — performance without a manual leaderboard.</li>
+              <li><b>Stale Deals / At-Risk</b> — surfaces deals that need attention before they slip.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SALES PATH REFERENCE -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Reference</p>
+    <h2 class="title">The Wilson Homes Sales Path</h2>
+    <p class="lead">The five stages every home deal moves through. Use this to answer "what does each stage mean?"</p>
+    <div class="stages" style="margin-top:20px">
+      <div class="stage"><span class="sn">Stage 1</span><h4>Registered Interest</h4><p>Inquiry captured; buyer and community known, not yet qualified.</p></div>
+      <div class="stage"><span class="sn">Stage 2</span><h4>Qualified Lead</h4><p>Budget, timeline, and community fit confirmed.</p></div>
+      <div class="stage"><span class="sn">Stage 3</span><h4>Tour Scheduled</h4><p>Model or lot walkthrough booked with the on-site team.</p></div>
+      <div class="stage"><span class="sn">Stage 4</span><h4>Negotiating</h4><p>Lot premium, incentives, and terms under discussion.</p></div>
+      <div class="stage"><span class="sn">Stage 5</span><h4>Closed Won</h4><p>Purchase agreement signed; hand-off to homeowner services.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S LIVE -->
+<section>
+  <div class="wrap">
+    <p class="kicker">What's configured</p>
+    <h2 class="title">What's live in this trial</h2>
+    <p class="lead">A focused Sales Cloud foundation — the model, the guided process, and the reporting layer.</p>
+    <table style="margin-top:18px">
+      <tr><th>Area</th><th>What's built</th></tr>
+      <tr><td><b>Record type</b></td><td>Home Purchase — the Opportunity type for home/lot sales.</td></tr>
+      <tr><td><b>Sales Path</b></td><td>5-stage guided path on Opportunity (Registered Interest → Closed Won).</td></tr>
+      <tr><td><b>Reports</b></td><td>8 reports — Pipeline by Stage, Community Breakdown &amp; Win Rates, Deal Velocity, Opportunity Age, Lead Source, Win Rate by Rep, Activity Summary.</td></tr>
+      <tr><td><b>Dashboard</b></td><td>WH Sales Cloud Overview — 8 tiles across pipeline, communities, reps, and aging.</td></tr>
+      <tr><td><b>Data model</b></td><td>Lead → Account (community) → Contact (buyer) → Opportunity (home deal).</td></tr>
+      <tr><td><b>Demo data</b></td><td>5 communities · 20 home deals across all stages · buyer contacts · web-inquiry leads · logged activity.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- QUICK REFERENCE -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Quick reference</p>
+    <h2 class="title">The numbers in the org</h2>
+    <div class="stats" style="margin-top:18px">
+      <div class="stat"><div class="v">$12M</div><div class="k">Total pipeline (incl. closed)</div></div>
+      <div class="stat"><div class="v">20</div><div class="k">Home deals across 5 stages</div></div>
+      <div class="stat"><div class="v">5</div><div class="k">Communities</div></div>
+      <div class="stat"><div class="v">$8.4M</div><div class="k">Open pipeline</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card">
+        <h3>Communities (Accounts)</h3>
+        <p>Copper Creek (Fresno) · Loma Vista (Clovis) · Riverstone (Madera) · Granite Park (Clovis) · Terra Bella (Fresno)</p>
+      </div>
+      <div class="card">
+        <h3>Deal distribution</h3>
+        <p>Registered Interest 4 · Qualified Lead 4 · Tour Scheduled 3 · Negotiating 3 · Closed Won 4 · Closed Lost 2</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section>
+  <div class="wrap">
+    <p class="kicker">Appendix</p>
+    <h2 class="title">Objection handling</h2>
+    <p class="lead">Likely questions from the Wilson Homes team, and how to answer them.</p>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="obj">
+        <p class="q">We already use Lasso — why switch?"</p>
+        <p class="a">"Lasso is great at lead capture, but your team is stitching it together with Mailchimp, spreadsheets, and manual hand-offs. Salesforce is <b>one platform</b> for the whole journey — and everything you saw rolls up into reporting with zero extra work."</p>
+      </div>
+      <div class="obj">
+        <p class="q">Is this going to be complicated for on-site agents?"</p>
+        <p class="a">"That's exactly why we led with the <b>Sales Path</b>. An agent doesn't need to learn the system — they follow the path. The screens you saw are the whole daily experience."</p>
+      </div>
+      <div class="obj">
+        <p class="q">It doesn't have our floorplans or lot fields."</p>
+        <p class="a">"Correct — this trial intentionally uses the standard model so we could stand it up fast and prove the flow. <b>Builder-specific fields</b> (floorplan, lot, pre-approval, website activity) are a quick configuration once you confirm the shape."</p>
+      </div>
+      <div class="obj">
+        <p class="q">Can it track campaigns and website visits like our marketing stack?"</p>
+        <p class="a">"Yes — that's the consolidation play. Web-to-Lead, campaign attribution, and marketing automation all connect to these same records, so marketing and on-site sales finally share one source of truth."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Wilson Homes — Sales Cloud Demo Guide</b><br>Prepared by SaaScend · Trial org force-force-3241</div>
+    <a class="toplink" href="#top">↑ Back to top</a>
+  </div>
+</footer>
+
+</body>
+</html>
